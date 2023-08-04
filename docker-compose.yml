@@ -1,0 +1,45 @@
+version: '3.7'
+
+services:
+  scalable.api:
+    container_name: scalable
+    depends_on:
+     - db
+     - rabbitmq
+    build:
+      context: .
+      dockerfile: Scalable.Api/Dockerfile
+    ports: 
+      - "8080:80"
+      - "44388:443"
+    expose:
+      - 44388
+  db:
+    container_name: database-sql
+    image: postgres
+    restart: always
+    environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: miau1234
+    ports:
+      - 6543:5432
+    expose:
+      - 6543
+    volumes:
+    - pgdata:/var/lib/postgresql/data
+
+  rabbitmq: # login guest:guest
+    image: rabbitmq:3-management
+    hostname: "rabbitmq"
+    labels:
+      NAME: "rabbitmq"
+    ports:
+    - "4369:4369"
+    - "5671:5671"
+    - "5672:5672"
+    - "25672:25672"
+    - "15671:15671"
+    - "15672:15672"
+
+volumes:
+  pgdata:
