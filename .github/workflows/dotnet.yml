@@ -21,8 +21,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore .\Scalable.Api\
+      run: dotnet restore .\Scalable.Api\Scalable.Api.csproj
     - name: Build
-      run: dotnet build  .\Scalable.Api\ --no-restore
+      run: dotnet build  .\Scalable.Api\Scalable.Api.csproj --no-restore
     - name: Test
       run: dotnet test .\Tests\Scalable.Stock.Tests\ --no-build --verbosity normal
