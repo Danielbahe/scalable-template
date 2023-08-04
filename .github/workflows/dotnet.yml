@@ -25,4 +25,4 @@ jobs:
     - name: Build
       run: dotnet build  ./Scalable.Api/Scalable.Api.csproj --no-restore
     - name: Test
-      run: dotnet test ./Tests\Scalable.Stock.Tests/ --no-build --verbosity normal
+      run: dotnet test ./Tests/Scalable.Stock.Tests/ --no-build --verbosity normal
