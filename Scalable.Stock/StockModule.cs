@@ -20,15 +20,11 @@ namespace Scalable.Stock
             serviceCollection.AddScoped<IIntegrationEventsUnitOfWork<StockContext>, IntegrationEventsUnitOfWork<StockContext>>();
         }
 
-        public static void RegisterModulesDbContexts(this IServiceCollection serviceCollection, IConfiguration configuration)
+        public static void RegisterStockModuleDbContexts(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("PostgresSqlDatabase");
 
             serviceCollection.AddDbContext<StockContext>(
-                dbContextOptions => dbContextOptions
-                .UseNpgsql(connectionString));
-
-            serviceCollection.AddDbContext<CoreContext>(
                 dbContextOptions => dbContextOptions
                 .UseNpgsql(connectionString));
         }

@@ -1,5 +1,6 @@
 using Scalable.Api;
 using Scalable.Stock;
+using Scalable.Core;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -11,7 +12,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
-builder.Services.RegisterModulesDbContexts(builder.Configuration);
+builder.Services.RegisterCoreDbContexts(builder.Configuration);
+builder.Services.RegisterStockModuleDbContexts(builder.Configuration);
 
 builder.Services.AddMediatR(cfg => {
     cfg.RegisterServicesFromAssemblies(ApiModule.GetAssemblies());
