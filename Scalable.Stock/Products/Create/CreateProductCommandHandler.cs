@@ -9,26 +9,26 @@ namespace Scalable.Stock.Products.Create
 
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Result<Product>>
     {
-        private readonly ILogger logger;
-        public IStockUnitOfWork UnitOfWork { get; }
+        private readonly ILogger logger; 
+        private readonly IStockUnitOfWork unitOfWork;
 
         public CreateProductCommandHandler(IStockUnitOfWork unitOfWork, ILogger logger)
         {
-            UnitOfWork = unitOfWork;
-            this.logger = logger;
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        public async Task<Result<Product>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Product>> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            var product = Product.Create(request);
+            var product = Product.Create(command);
             if (product.IsFailure)
             {
                 logger.Warning("Error creating new Product: {@Error}", product.Error);
                 return product;
             }
 
-            await UnitOfWork.ProductRepository.AddAsync(product.Value);
-            await UnitOfWork.SaveChangesAsync();
+            await unitOfWork.ProductRepository.AddAsync(product.Value);
+            await unitOfWork.SaveChangesAsync();
 
             logger.Debug("Product created: {@Value}", product.Value);
 

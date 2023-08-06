@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using Scalable.Stock.Products.Get;
 
 namespace Scalable.Stock.Products.Infrastructure
 {
@@ -20,21 +21,28 @@ namespace Scalable.Stock.Products.Infrastructure
         }
 
         [HttpPut]
-        public async Task<IActionResult> AddProduct(CreateProductCommand request)
+        public async Task<IActionResult> AddProduct(CreateProductCommand command)
         {
-            logger.Debug("Procesing Create Product Request: {@request}", request);
-            var result = await mediator.Send(request);
+            logger.Debug("Procesing Create Product Request: {@request}", command);
+            var result = await mediator.Send(command);
 
-            if (result.IsSuccess)
-            {
-                logger.Information("Product created successfully");
-                return StatusCode(201);
-            }
-            else
+            if (result.IsFailure)
             {
                 logger.Warning("Product creation unsuccessfull: {@request}", result.Error);
                 return BadRequest(result);
             }
+            
+            logger.Information("Product created successfully");
+            return StatusCode(201);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllProductsPaginated([FromQuery] GetAllProductsPaginatedQuery query)
+        {
+            logger.Debug("Procesing Get all products paginated query: {@query}", query);
+            var result = await mediator.Send(query);
+
+            return Ok(result);
         }
     }
 }

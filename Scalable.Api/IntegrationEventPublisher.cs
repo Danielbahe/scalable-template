@@ -10,7 +10,7 @@ namespace Scalable.Api
     public class IntegrationEventPublisher : BackgroundService
     {
         private readonly ILogger logger;
-        private const int TIMEOUT_SECONDS = 1;
+        private const int TIMEOUT_SECONDS = 5;
         private readonly IServiceProvider serviceProvider;
 
         public IntegrationEventPublisher(ILogger logger, IServiceProvider serviceProvider)

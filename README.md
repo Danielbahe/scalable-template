@@ -25,9 +25,15 @@
 - .Net 7
 - Entity Framework
 - Serilog
-- Simple Create Example
-- Unit Tests (WIP)
+- Simple Create example
+- Get all Paginated example
+- Unit Tests
 - Integration Test (WIP)
+- CI (github workflow)
+    - Build
+    - Unit test
+    - Integration Test (WIP)
+- CD (WIP)
 
 ## Some personal thoughts
 As a big fan of YAGNI (You aren't gonna need it) I have opposed feelings about this template.

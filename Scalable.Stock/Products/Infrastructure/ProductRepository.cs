@@ -17,6 +17,15 @@ namespace Scalable.Stock.Products.Infrastructure
             await context.Products.AddAsync(product);
         }
 
+        public async Task<IEnumerable<Product>> GetAllProductsPaginated(int pageSize, int page)
+        {
+            return await context.Products
+                .OrderBy(p => p.Created)
+                .Skip(page * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
         public async Task<Result<Product>> GetById(Guid id)
         {
             var product = await context.Products.FirstOrDefaultAsync(p=> p.Id == id);
