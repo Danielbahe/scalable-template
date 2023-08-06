@@ -19,10 +19,10 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
     - name: Restore dependencies
       run: dotnet restore ./Scalable.Api/Scalable.Api.csproj
     - name: Build
       run: dotnet build  ./Scalable.Api/Scalable.Api.csproj --no-restore
     - name: Test
-      run: dotnet test ./Tests/Scalable.Stock.Tests/Scalable.Stock.Tests.csproj --no-build --verbosity normal
+      run: dotnet test ./Tests/Scalable.Stock.Tests/Scalable.Stock.Tests.csproj
