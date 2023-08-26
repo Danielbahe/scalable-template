@@ -10,7 +10,7 @@ namespace Scalable.Api
     public class IntegrationEventPublisher : BackgroundService
     {
         private readonly ILogger logger;
-        private const int TIMEOUT_SECONDS = 5;
+        private const int TIMEOUT_MILISECONDS = 5000;
         private readonly IServiceProvider serviceProvider;
 
         public IntegrationEventPublisher(ILogger logger, IServiceProvider serviceProvider)
@@ -21,10 +21,10 @@ namespace Scalable.Api
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            logger.Information("Checking for integration events every {timeout}s", TIMEOUT_SECONDS);
+            logger.Information("Checking for integration events every {timeout}ms", TIMEOUT_MILISECONDS);
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(TIMEOUT_SECONDS * 1000, stoppingToken);
+                await Task.Delay(TIMEOUT_MILISECONDS, stoppingToken);
 
                 var integrationEvents = await GetOrderedIntegrationEvents();
 
