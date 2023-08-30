@@ -27,4 +27,4 @@ jobs:
     - name: Unit Test
       run: dotnet test ./Tests/Scalable.Stock.Tests/Scalable.Stock.Tests.csproj
     - name: Integrarion Test
-      run: dotnet test ./Tests/Scalable.Stock.IntegrationTests/Scalable.Stock.IntegrationTests
+      run: dotnet test ./Tests/Scalable.Stock.IntegrationTests/Scalable.Stock.IntegrationTests.csproj
