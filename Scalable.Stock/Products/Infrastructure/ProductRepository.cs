@@ -20,6 +20,7 @@ namespace Scalable.Stock.Products.Infrastructure
         public async Task<IEnumerable<Product>> GetAllProductsPaginated(int pageSize, int page)
         {
             return await context.Products
+                .AsNoTracking()
                 .OrderBy(p => p.Created)
                 .Skip(page * pageSize)
                 .Take(pageSize)
