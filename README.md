@@ -1,3 +1,4 @@
+[![.NET](https://github.com/Danielbahe/scalable-template/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Danielbahe/scalable-template/actions/workflows/dotnet.yml)
 # scalable-template
  .Net 7 Web Api scalable template for big projects.
 ## How to use
