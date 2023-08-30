@@ -24,5 +24,7 @@ jobs:
       run: dotnet restore ./Scalable.Api/Scalable.Api.csproj
     - name: Build
       run: dotnet build  ./Scalable.Api/Scalable.Api.csproj --no-restore
-    - name: Test
+    - name: Unit Test
       run: dotnet test ./Tests/Scalable.Stock.Tests/Scalable.Stock.Tests.csproj
+    - name: Integrarion Test
+      run: dotnet test ./Tests/Scalable.Stock.IntegrationTests/Scalable.Stock.IntegrationTests
