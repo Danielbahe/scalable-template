@@ -13,7 +13,7 @@
 - DDD (Domain Driven Design)
 - Domain Events
 - Integration Events
-- Outbox Pattern (using database, not included feature in Masstransit)
+- Outbox Pattern (using database, not the feature included in Masstransit)
 - CQRS (Command Query Responsibility Segregation)
 - Mediator
 - Unit of Work
@@ -24,17 +24,18 @@
 - Restful Responses
 - Docker & Docker Compose
 - .Net 7
-- Entity Framework
+- Entity Framework Core
 - Serilog
 - Simple Create example
 - Get all Paginated example
 - Unit Tests
-- Integration Test (WIP)
-- CI (github workflow)
+- Integration Test
+- CI (github actions workflow)
     - Build
     - Unit test
-    - Integration Test (WIP)
-- CD (WIP)
+    - Integration Test
+
+## 
 
 ## Some personal thoughts
 As a big fan of YAGNI (You aren't gonna need it) I have opposed feelings about this template.
