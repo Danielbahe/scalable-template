@@ -1,20 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using Scalable.Api;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Testcontainers.PostgreSql;
+using Microsoft.AspNetCore.TestHost;
+using Scalable.Core.Infrastructure;
 
 namespace Scalable.Stock.IntegrationTests
 {
-    public class ApiWebApplicationFactory : WebApplicationFactory<ApiAssembly>, IAsyncLifetime
+    public class ApiWebApplicationFactory : WebApplicationFactory<Program>, IAsyncLifetime
     {
         private readonly PostgreSqlContainer dbContainer = new PostgreSqlBuilder()
-                        .WithImage("testcontainers/helloworld:1.1.0")
-                        .WithDatabase("scalable")
-                        .WithUsername("sa")
-                        .WithPassword("sa")
+                        .WithImage("postgres")
+                        .WithDatabase("database-sql")
+                        .WithUsername("postgres")
+                        .WithPassword("miau1234")
                         .Build();
 
         public Task InitializeAsync()
@@ -24,21 +24,31 @@ namespace Scalable.Stock.IntegrationTests
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.UseEnvironment("Testing");
-
-            base.ConfigureWebHost(builder);
-        }
-
-        protected override IHost CreateHost(IHostBuilder builder)
-        {
-            builder.ConfigureServices(services =>
+            builder.ConfigureTestServices(services =>
             {
-                services.AddDbContext<StockContext>(dbContextOptions => 
-                dbContextOptions
-                .UseNpgsql(dbContainer.GetConnectionString()));
+                var descriptor = services.SingleOrDefault(s => s.ServiceType == typeof(DbContextOptions<StockContext>));
+                var descriptor2 = services.SingleOrDefault(s => s.ServiceType == typeof(DbContextOptions<CoreContext>));
+
+                if (descriptor is not null)
+                {
+                    services.Remove(descriptor);
+                }
+
+                if (descriptor2 is not null)
+                {
+                    services.Remove(descriptor2);
+                }
+
+                services.AddDbContext<StockContext>(dbContextOptions =>
+                    dbContextOptions
+                        .UseNpgsql(dbContainer.GetConnectionString()));
+
+                services.AddDbContext<CoreContext>(dbContextOptions =>
+                    dbContextOptions
+                        .UseNpgsql(dbContainer.GetConnectionString()));
             });
 
-            return base.CreateHost(builder);
+            base.ConfigureWebHost(builder);
         }
 
         public new Task DisposeAsync()

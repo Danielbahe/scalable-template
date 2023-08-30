@@ -1,30 +1,18 @@
-﻿namespace Scalable.Stock.IntegrationTests
+﻿using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Scalable.Stock.IntegrationTests
 {
-    public class TestBase
+    public abstract class BaseIntegrationTest : IClassFixture<ApiWebApplicationFactory>
     {
-        protected ApiWebApplicationFactory Application;
+        private readonly IServiceScope _scope;
+        protected readonly ISender Sender;
 
-        protected TestBase()
+        protected BaseIntegrationTest(ApiWebApplicationFactory factory)
         {
-            Application = new ApiWebApplicationFactory();
+            _scope = factory.Services.CreateScope();
+
+            Sender = _scope.ServiceProvider.GetRequiredService<ISender>();
         }
-
-        public HttpClient GetClient()
-        {
-            return Application.CreateClient();
-        }
-
-        //protected async Task<TEntity> AddAsync<TEntity>(TEntity entity) where TEntity : class
-        //{
-        //    using var scope = Application.Services.CreateScope();
-
-        //    var context = scope.ServiceProvider.GetService<MyAppDbContext>();
-
-        //    context.Add(entity);
-
-        //    await context.SaveChangesAsync();
-
-        //    return entity;
-        //}
     }
 }

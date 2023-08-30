@@ -1,20 +1,20 @@
 using FluentAssertions;
-using Scalable.Stock.Products.Domain;
-using System.Net.Http.Json;
+using Scalable.Stock.Products.Get;
 
 namespace Scalable.Stock.IntegrationTests
 {
-    public class ProductsShould : TestBase
+    public class ProductsShould : BaseIntegrationTest
     {
+        public ProductsShould(ApiWebApplicationFactory factory) : base(factory)
+        {
+        }
+
         [Fact]
         public async void BeSuccessfullyRetrieved()
         {
-            var client = GetClient();
+            var result = await Sender.Send(new GetAllProductsPaginatedQuery());
 
-            var result = await client.GetFromJsonAsync<List<Product>>("/products");
-            
-            result.Should().NotBeNull();
-            
+            result.Should().NotBeNull();            
         }
     }
 }
